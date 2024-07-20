@@ -1,5 +1,6 @@
 import Button from "../module/Button";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
+import FeedbackItemComments from "./FeedbackItemComments";
 
 function FeedbackItemModal({ title, description, votesCount }) {
   return (
@@ -14,6 +15,8 @@ function FeedbackItemModal({ title, description, votesCount }) {
           <TbTriangleInvertedFilled className="w-3 h-3" /> Upvoted {votesCount}
         </Button>
       </div>
+
+      <FeedbackItemComments/>
     </div>
   )
 }

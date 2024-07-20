@@ -1,6 +1,6 @@
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 
-function FeedbackItem({ onOpen, title, description, voted }) {
+function FeedbackItem({ onOpen, title, description, votesCount }) {
   return (
     <div>
       <div
@@ -12,7 +12,7 @@ function FeedbackItem({ onOpen, title, description, voted }) {
         </div>
         <div>
           <button className="border-solid border-purple-300 border-[2px] px-3 py-2 rounded-md flex gap-1 justify-center items-center">
-            <TbTriangleInvertedFilled className="w-3 h-3" /> {voted}
+            <TbTriangleInvertedFilled className="w-3 h-3" /> {votesCount}
           </button>
         </div>
       </div>

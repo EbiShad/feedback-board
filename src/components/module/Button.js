@@ -1,7 +1,6 @@
 "use client"
 
-function Button(props) {
-  console.log(props)
+function Button(props){
   return (
     <button {...props} disabled={props.disabled} 
     className={`px-2 py-2 rounded-lg flex justify-center text-black gap-1 items-center transition-colors duration-300 
