@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TextareaInput from "../module/TextareaInput";
 import Button from "../module/Button";
+import Avatar from "../module/Avatar";
 
 function FeedbackItemComments() {
   const [commentText, setCommentText] = useState("");
@@ -8,7 +9,7 @@ function FeedbackItemComments() {
   return (
     <div>
       <div className="mt-8 flex gap-4">
-        <span>Avatat</span>
+        <Avatar />
         <p>
           mmonly used to the visual form of a document or a typeface publishing
           and graphic design, Lorem ipsum is a placeholder text co without
