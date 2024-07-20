@@ -10,12 +10,15 @@ function FeedbackItemComments() {
     <div>
       <div className="mt-8 flex gap-4">
         <Avatar />
-        <p>
-          mmonly used to the visual form of a document or a typeface publishing
-          and graphic design, Lorem ipsum is a placeholder text co without
-          relying on meaningful content. Lorem ipsum may be used as a placehol
-         
-        </p>
+        <div>
+          <p className="text-justify text-sm">
+            mmonly used to the visual form of a document or a typeface
+            publishing and graphic design, Lorem ipsum is a placeholder text co
+            without relying on meaningful content. Lorem ipsum may be used as a
+            placehol
+          </p>
+          <div className="text-xs text-gray-400 pt-1">Anonymous . afew minutes ago</div>
+        </div>
       </div>
       <form className="mt-5">
         <TextareaInput
