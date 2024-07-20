@@ -1,15 +1,10 @@
-import TextareaInput from "../module/TextareaInput"
-
-
-
+import React from 'react'
 
 function FeedbackItemComments() {
+
   return (
     <div>
-      <h3>all comments</h3>
-      <form>
-        <TextareaInput/>
-      </form>
+      <h1>Salammm</h1>
     </div>
   )
 }

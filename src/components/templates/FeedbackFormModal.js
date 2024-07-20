@@ -32,8 +32,8 @@ function FeedbackFormModal() {
           placeholder="please include any details"
         />
         <div className="flex items-center gap-4 justify-end">
-            <button>Create post</button>
-            <Button>Atach files</Button>
+            <Button gray >Create post</Button>
+            <Button >Atach files</Button>
         </div>
     </form>
   )
