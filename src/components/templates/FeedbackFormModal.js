@@ -7,8 +7,8 @@ import Button from "../module/Button";
 import { useMutation } from "@tanstack/react-query";
 import { createPost } from "@/servises/postService";
 
-function FeedbackFormModal(e) {
-  e.preventDefault();
+function FeedbackFormModal() {
+  
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -17,9 +17,10 @@ function FeedbackFormModal(e) {
     mutationFn: createPost,
   })
 
-  const handleCreatePostButton = async () => {
-    const { message, status } = await mutateAsync({ title, description })
-    console.log(message)
+  const handleCreatePostButton = async (e) => {
+    e.preventDefault();
+    const data = await mutateAsync({ title, description })
+    console.log(data)
   }
 
   return (
@@ -41,10 +42,10 @@ function FeedbackFormModal(e) {
         placeholder="please include any details"
       />
       <div className="flex items-center gap-4 justify-end">
-        <Button gray onClick={handleCreatePostButton}>
+        <Button gray>Atach files</Button>
+        <Button onClick={handleCreatePostButton}>
           Create post
         </Button>
-        <Button>Atach files</Button>
       </div>
     </form>
   );

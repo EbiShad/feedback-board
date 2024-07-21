@@ -86,6 +86,7 @@ function HomePage() {
 
       <Modal
         isOpen={showFeedbackFormModal}
+        classes= {showFeedbackFormModal ? "visible bg-black/50 duration-500" :"invisible"}
         onClose={() => setShowFeedbackFormModal(false)}
         title="Make a sujesstion"
       >

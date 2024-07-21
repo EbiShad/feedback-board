@@ -48,12 +48,12 @@ function Header() {
             </Link>
           )}
 
-          <Link
+          {/* <Link
             href={status==="authenticated" ? "/new-listing":"/signin"}
             className="hover:bg-purple-400 transition ease-in-out delay-75"
           >
             Post a job
-          </Link>
+          </Link> */}
         </nav>
       </div>
     </header>
