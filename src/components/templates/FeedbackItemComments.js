@@ -11,7 +11,7 @@ function FeedbackItemComments() {
       <div className="mt-8 flex gap-4">
         <Avatar />
         <div>
-          <p className="text-justify text-sm">
+          <p className="text-justify text-xs">
             mmonly used to the visual form of a document or a typeface
             publishing and graphic design, Lorem ipsum is a placeholder text co
             without relying on meaningful content. Lorem ipsum may be used as a

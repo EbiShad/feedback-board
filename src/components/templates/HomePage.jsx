@@ -92,7 +92,7 @@ function HomePage() {
         <FeedbackFormModal onClose={() => setShowFeedbackFormModal(false)}/>
       </Modal>
 
-      <div className="px-8 space-y-4">
+      <div className="px-8 pb-8 space-y-4">
         {feedBacks.map((feedback, index) => (
           <>
             <FeedbackItem
