@@ -5,22 +5,24 @@ import TextareaInput from "../module/TextareaInput";
 import TextField from "../module/TextField";
 import Button from "../module/Button";
 import { useMutation } from "@tanstack/react-query";
-import { createPost } from "@/servises/postService";
+import {createPostFn } from "@/servises/postService";
 
-function FeedbackFormModal() {
+function FeedbackFormModal({onClose}) {
   
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
 
   const { data, isPending, mutateAsync } = useMutation({
-    mutationFn: createPost,
+    mutationFn: createPostFn,
   })
 
   const handleCreatePostButton = async (e) => {
     e.preventDefault();
     const data = await mutateAsync({ title, description })
-    console.log(data)
+    setDescription("")
+    setTitle("")
+    onClose()
   }
 
   return (
@@ -48,7 +50,7 @@ function FeedbackFormModal() {
         </Button>
       </div>
     </form>
-  );
+  )
 }
 
 export default FeedbackFormModal;
