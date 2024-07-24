@@ -7,6 +7,7 @@ import FeedbackFormModal from "./FeedbackFormModal";
 import Button from "../module/Button";
 import FeedbackItemModal from "./FeedbackItemModal";
 
+
 function HomePage() {
   const [showFeedbackFormModal, setShowFeedbackFormModal] = useState(false);
   const [showFeedbackItemModal, setShowFeedbackItemModal] = useState(null);
@@ -93,7 +94,7 @@ function HomePage() {
       </Modal>
 
       <div className="px-8 pb-8 space-y-4">
-        {feedBacks.map((feedback, index) => (
+        {/* {feedBacks.map((feedback, index) => (
           <>
             <FeedbackItem
               key={index}
@@ -101,7 +102,7 @@ function HomePage() {
               onOpen={() => openFeedbackItemModal(feedback)}
             />
           </>
-        ))}
+        ))} */}
       </div>
       <Modal
         isOpen={showFeedbackItemModal}

@@ -1,7 +1,8 @@
 
 import { NextResponse } from "next/server";
-import Feedback from "@/models/Feedback";
+
 import connectDB from "@/utils/connectDB";
+import Comment from "@/models/Feedback";
 
 
 
@@ -17,10 +18,10 @@ export async function POST(req){
     }
 
 
-    Feedback.create({title,description,ip})
+    const newComment = Comment.create({title,description,ip})
    
 
-    return NextResponse.json({ message:"feedback is created", status: 201 });
+    return NextResponse.json({ message:"Comment is created", status: 201 });
 
   } catch {
     console.log(error);
