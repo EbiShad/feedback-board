@@ -30,3 +30,20 @@ export async function POST(req){
     );
   }
 }
+
+
+export async function GET(req){
+  try {
+    await connectDB()
+
+    const feedbacks = await Feedback.find()
+    return NextResponse.json({data:feedbacks})
+    
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "server problem is happend" },
+      { status: 500 }
+    );
+  }
+}
