@@ -9,11 +9,13 @@ import { createPostFn } from "@/servises/postService";
 import toast from "react-hot-toast";
 import supabase from "@/config/SupabaseClient";
 import { IoTrashOutline } from "react-icons/io5";
+import Loader from "../module/Loader";
 
 function FeedbackFormModal({ onClose }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imgUpload, setImgUpload] = useState([]);
+  const [uploading,setUploading] = useState(false);
 
   const { data, isPending, mutateAsync } = useMutation({
     mutationFn: createPostFn,
@@ -39,12 +41,13 @@ function FeedbackFormModal({ onClose }) {
 
   const handleAttachFileInputChange = async (e) => {
     const file = e.target.files[0];
-
     const links = [];
+    setUploading(true)
     const { data } = await supabase.storage.from("pictures").upload(`${file.name}`, file)
     const imageUrl = `https://dddfealtiyhdqcdfvznh.supabase.co/storage/v1/object/public/pictures/${file.name}`
     links.push(imageUrl)
     setImgUpload((prev) => [...prev,...links])
+    setUploading(false)
   }
 
   const handleremoveFileButton = (e,link) => {
@@ -92,8 +95,9 @@ function FeedbackFormModal({ onClose }) {
       <div className="flex items-center gap-4 justify-end">
         <label>
           <span className="bg-gray-300 hover:bg-gray-400 px-2 py-2 rounded-lg cursor-pointer 
-          flex justify-center text-black items-center transition-colors duration-300">
-            Atach files
+            flex justify-center gap-2 text-black items-center transition-colors duration-300">
+            {uploading && <Loader width={20} height={20}/>}
+            {uploading ? "Uploading" : "Atach files"}
           </span>
           <input
             multiple
