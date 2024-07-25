@@ -94,7 +94,7 @@ function HomePage() {
       </Modal>
 
       <div className="px-8 pb-8 space-y-4">
-        {/* {feedBacks.map((feedback, index) => (
+        {feedBacks.map((feedback, index) => (
           <>
             <FeedbackItem
               key={index}
@@ -102,7 +102,7 @@ function HomePage() {
               onOpen={() => openFeedbackItemModal(feedback)}
             />
           </>
-        ))} */}
+        ))}
       </div>
       <Modal
         isOpen={showFeedbackItemModal}

@@ -7,7 +7,7 @@ function Loader({ width = 50, height = 20, color }) {
       <Circles
         width={width}
         height={height}
-        color="rgb(0, 0, 0)"
+        color={color}
         ariaLabel="circles-loading"
         wrapperStyle={{}}
         wrapperClass=""

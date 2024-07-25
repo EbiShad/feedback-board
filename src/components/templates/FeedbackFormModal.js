@@ -94,16 +94,17 @@ function FeedbackFormModal({ onClose }) {
 
       <div className="flex items-center gap-4 justify-end">
         <label>
-          <span className="bg-gray-300 hover:bg-gray-400 px-2 py-2 rounded-lg cursor-pointer 
-            flex justify-center gap-2 text-black items-center transition-colors duration-300">
-            {uploading && <Loader width={20} height={20}/>}
+          <span className={`
+          ${uploading ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-gray-300 hover:bg-gray-400 text-black cursor-pointer"} 
+            px-2 py-2 rounded-lg flex justify-center gap-2  items-center transition-colors duration-300`}>
+            {uploading && <Loader width={20} height={20} color="rgb(156 163 175)"/>}
             {uploading ? "Uploading" : "Atach files"}
           </span>
           <input
-            multiple
             type="file"
             className="hidden"
             onChange={handleAttachFileInputChange}
+            disabled={uploading}
           />
         </label>
         <Button onClick={handleCreatePostButton}>Create post</Button>
