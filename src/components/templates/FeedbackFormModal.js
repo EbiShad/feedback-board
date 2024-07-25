@@ -36,7 +36,7 @@ function FeedbackFormModal({ onClose }) {
 
   const handleCreatePostButton = async (e) => {
     e.preventDefault();
-    const data = await mutateAsync({ title, description });
+    const data = await mutateAsync({ title, description ,imgUpload});
   };
 
   const handleAttachFileInputChange = async (e) => {

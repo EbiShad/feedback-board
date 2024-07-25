@@ -1,8 +1,7 @@
 
 import { NextResponse } from "next/server";
-
 import connectDB from "@/utils/connectDB";
-import Comment from "@/models/Feedback";
+import Feedback from "@/models/Feedback";
 
 
 
@@ -10,18 +9,18 @@ export async function POST(req){
 
    try {
     await connectDB();
-    const { title, description } = await req.json();
-    const ip = ""
+    const { title, description, imgUpload} = await req.json();
+
 
     if (!title || !description) {
       return NextResponse.json({ message: "Enter title or description please",status:422 });
     }
 
 
-    const newComment = Comment.create({title,description,ip})
+    const newFeedback = await Feedback.create({title,description,imgUpload})
    
 
-    return NextResponse.json({ message:"Comment is created", status: 201 });
+    return NextResponse.json({ message:"Feedback is created", status: 201});
 
   } catch {
     console.log(error);

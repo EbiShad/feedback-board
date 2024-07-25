@@ -2,7 +2,7 @@
 
 import { Schema, model, models } from "mongoose";
 
-const commentSchema = new Schema({
+const feedbackSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -11,13 +11,11 @@ const commentSchema = new Schema({
     type: String,
     required: true,
   },
-  ip: {
-    type: String,
-    required: true,
+  imgUpload: {
+    type: [String],
   },
-
 },{timestamps:true});
 
-const Comment = models.Comment || model("Comment", commentSchema);
+const Feedback = models.Feedback || model("Feedback", feedbackSchema);
 
-export default Comment;
+export default Feedback;
