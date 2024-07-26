@@ -37,8 +37,8 @@ export async function GET(req){
     await connectDB()
 
     const feedbacks = await Feedback.find()
-    return NextResponse.json({data:feedbacks})
-    
+    return NextResponse.json(feedbacks)
+
   } catch (error) {
     console.log(error);
     return NextResponse.json(

@@ -1,75 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FeedbackItem from "./FeedbackItem";
 import Modal from "../module/Modal";
 import FeedbackFormModal from "./FeedbackFormModal";
 import Button from "../module/Button";
 import FeedbackItemModal from "./FeedbackItemModal";
-
+import { useQuery } from "@tanstack/react-query";
+import { getFeedbackFn } from "@/servises/feedbackService";
+import Loader from "../module/Loader";
+import { useRouter } from "next/navigation";
 
 function HomePage() {
   const [showFeedbackFormModal, setShowFeedbackFormModal] = useState(false);
   const [showFeedbackItemModal, setShowFeedbackItemModal] = useState(null);
+  const [feedbacks, setFeedbacks] = useState([]);
+  const router = useRouter()
+
+  const { data, isPending } = useQuery({
+    queryFn: getFeedbackFn,
+    queryKey: ["get-feedbacks"],
+  })
 
   const openFeedbackFormModal = () => {
     setShowFeedbackFormModal(true);
   };
 
   const openFeedbackItemModal = (feedback) => {
-    setShowFeedbackItemModal(feedback)
+    setShowFeedbackItemModal(feedback);
   };
 
-  const feedBacks = [
-    {
-      title: "salam1",
-      description:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placehol",
-      votesCount: 77,
-    },
-    {
-      title: "salam2",
-      description:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placehol",
-      votesCount: 55,
-    },
-    {
-      title: "salam3",
-      description:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placehol",
-      votesCount: 86,
-    },
-    {
-      title: "salam4",
-      description:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placehol",
-      votesCount: 87,
-    },
-    {
-      title: "salam4",
-      description:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placehol",
-      votesCount: 87,
-    },
-    {
-      title: "salam4",
-      description:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placehol",
-      votesCount: 87,
-    },
-    {
-      title: "salam4",
-      description:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placehol",
-      votesCount: 87,
-    },
-    {
-      title: "salam4",
-      description:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placehol",
-      votesCount: 87,
-    },
-  ];
+  useEffect(() => {
+    if (data) {
+      setFeedbacks(data)
+    }
+  },[data])
 
   return (
     <main className="bg-white md:shadow-lg rounded-lg mt-8 border overflow-hidden border-solid">
@@ -93,22 +58,27 @@ function HomePage() {
         <FeedbackFormModal onClose={() => setShowFeedbackFormModal(false)}/>
       </Modal>
 
-      <div className="px-8 pb-8 space-y-4">
-        {feedBacks.map((feedback, index) => (
-          <>
-            <FeedbackItem
-              key={index}
-              {...feedback}
-              onOpen={() => openFeedbackItemModal(feedback)}
-            />
-          </>
-        ))}
+      <div className={`px-8 pb-8 min-h-96 ${isPending && "flex items-center justify-center"}`}>
+        {isPending ? (
+          <Loader width={100} height={100} color="rgb(216 180 254)" />
+        ) : (
+          <div className="space-y-4">
+            {feedbacks.map((feedback) => (
+                <FeedbackItem
+                  key={feedback._id}
+                  {...feedback}
+                  onOpen={() => openFeedbackItemModal(feedback)}
+                />  
+            ))}
+          </div>
+        )}
       </div>
+
       <Modal
         isOpen={showFeedbackItemModal}
         onClose={() => setShowFeedbackItemModal(false)}
       >
-       <FeedbackItemModal {...showFeedbackItemModal}/>
+        <FeedbackItemModal {...showFeedbackItemModal} />
       </Modal>
     </main>
   );

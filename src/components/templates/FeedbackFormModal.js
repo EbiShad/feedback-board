@@ -4,8 +4,8 @@ import { useState } from "react";
 import TextareaInput from "../module/TextareaInput";
 import TextField from "../module/TextField";
 import Button from "../module/Button";
-import { useMutation } from "@tanstack/react-query";
-import { createPostFn } from "@/servises/postService";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createPostFn } from "@/servises/feedbackService";
 import toast from "react-hot-toast";
 import supabase from "@/config/SupabaseClient";
 import { IoTrashOutline } from "react-icons/io5";
@@ -17,6 +17,8 @@ function FeedbackFormModal({ onClose }) {
   const [imgUpload, setImgUpload] = useState([]);
   const [uploading,setUploading] = useState(false);
 
+  const queryClient = useQueryClient()
+
   const { data, isPending, mutateAsync } = useMutation({
     mutationFn: createPostFn,
     onSuccess: (data) => {
@@ -24,10 +26,14 @@ function FeedbackFormModal({ onClose }) {
         toast.success(data.message);
         setDescription("");
         setTitle("");
+        setImgUpload([])
         onClose();
       } else {
         toast.error(data.message);
       }
+      queryClient.invalidateQueries({
+        queryKey: ["get-feedbacks"],
+      })
     },
     onError: (err) => {
       toast.error(err.message);
@@ -37,7 +43,7 @@ function FeedbackFormModal({ onClose }) {
   const handleCreatePostButton = async (e) => {
     e.preventDefault();
     const data = await mutateAsync({ title, description ,imgUpload});
-  };
+  }
 
   const handleAttachFileInputChange = async (e) => {
     const file = e.target.files[0];
