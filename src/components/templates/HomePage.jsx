@@ -9,13 +9,14 @@ import FeedbackItemModal from "./FeedbackItemModal";
 import { useQuery } from "@tanstack/react-query";
 import { getFeedbackFn } from "@/servises/feedbackService";
 import Loader from "../module/Loader";
-import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
 
 function HomePage() {
   const [showFeedbackFormModal, setShowFeedbackFormModal] = useState(false);
   const [showFeedbackItemModal, setShowFeedbackItemModal] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
-  const router = useRouter()
+  const session = useSession()
 
   const { data, isPending } = useQuery({
     queryFn: getFeedbackFn,
@@ -66,6 +67,7 @@ function HomePage() {
             {feedbacks.map((feedback) => (
                 <FeedbackItem
                   key={feedback._id}
+                  session={session}
                   {...feedback}
                   onOpen={() => openFeedbackItemModal(feedback)}
                 />  
