@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getFeedbackFn } from "@/servises/feedbackService";
 import Loader from "../module/Loader";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 
 function HomePage() {
@@ -36,6 +37,11 @@ function HomePage() {
       setFeedbacks(data)
     }
   },[data])
+
+  useEffect(() => {
+    const ids = feedbacks.map(f => f._id)
+    axios.get("/api/vote?ids=")
+  },[feedbacks])
 
   return (
     <main className="bg-white md:shadow-lg rounded-lg mt-8 border overflow-hidden border-solid">
