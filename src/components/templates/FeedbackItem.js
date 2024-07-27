@@ -1,20 +1,29 @@
 'use client'
 
+import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 
-function FeedbackItem({ onOpen, title, description, votesCount,session}) {
+function FeedbackItem({ onOpen, title, _id, description, votesCount,session}) {
   const router = useRouter()
   
-const voteButton = (e) => {
+const voteButton = async (e) => {
    e.stopPropagation()
-   console.log(session.status)
    if(session.status === "unauthenticated"){
     router.push("/signin")
-    toast("Please loggin first")
+    toast("you are not login Please login first")
+    return
+   }else{
+  
+    const res = await axios.post("/api/vote",{feedbackId:_id}).then(res => res.data)
+    console.log(res)
    }
 }
+
+
+
 
   return (
     <div>
