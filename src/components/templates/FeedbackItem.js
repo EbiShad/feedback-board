@@ -1,14 +1,26 @@
 'use client'
 
+import { createVoteFn } from "@/servises/votesServices";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 
 function FeedbackItem({ onOpen, title, _id, description, vote ,session}) {
   const router = useRouter()
+const queryClient = useQueryClient()
+
+  const { data, isPending, mutateAsync } = useMutation({
+    mutationFn: createVoteFn,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["get-votes"],
+      })
+    }
+  })
   
+
 const voteButton = async (e) => {
    e.stopPropagation()
    if(session.status === "unauthenticated"){
@@ -16,9 +28,9 @@ const voteButton = async (e) => {
     toast("you are not login Please login first")
     return
    }else{
-  
-    const res = await axios.post("/api/vote",{feedbackId:_id}).then(res => res.data)
-    console.log(res)
+    const data = await mutateAsync({feedbackId:_id})
+    // const res = await axios.post("/api/vote",{feedbackId:_id}).then(res => res.data)
+   
    }
 }
 
