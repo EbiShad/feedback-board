@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 
 
+
 function HomePage() {
   const [showFeedbackFormModal, setShowFeedbackFormModal] = useState(false);
   const [showFeedbackItemModal, setShowFeedbackItemModal] = useState(null);
@@ -20,10 +21,20 @@ function HomePage() {
   const [votes, setVotes] = useState([]);
   const session = useSession()
 
-  const { data, isPending } = useQuery({
+  
+  const { data:feedbackData, isPending } = useQuery({
     queryFn: getFeedbackFn,
     queryKey: ["get-feedbacks"],
   })
+
+  const ids = feedbacks.map(f => f._id).join(",")
+  const {isPending:isVoting } = useQuery({
+    queryFn: () => {axios.get(`/api/vote?feedbackIds=${ids}`).then(res => setVotes(res.data));return null},
+    queryKey: ["get-votes",feedbacks],
+  })
+ 
+
+
 
   const openFeedbackFormModal = () => {
     setShowFeedbackFormModal(true);
@@ -34,16 +45,14 @@ function HomePage() {
   };
 
   useEffect(() => {
-    if (data) {
-      setFeedbacks(data)
+    if (feedbackData) {
+      setFeedbacks(feedbackData)
     }
-  },[data])
+  },[feedbackData])
 
-  useEffect(() => {
-    const ids = feedbacks.map(f => f._id)
-    axios.get(`/api/vote?feedbackIds=${ids.join(",")}`).then(res => setVotes(res.data))
-  
-  },[feedbacks])
+
+
+
 
   return (
     <main className="bg-white md:shadow-lg rounded-lg mt-8 border overflow-hidden border-solid">
@@ -76,7 +85,7 @@ function HomePage() {
                 <FeedbackItem
                   key={feedback._id}
                   session={session}
-                  vote={votes.filter( v => v.feedbackId === feedback._id )}
+                  vote={votes?.filter( v => v.feedbackId === feedback._id )}
                   {...feedback}
                   onOpen={() => openFeedbackItemModal(feedback)}
                 />  
