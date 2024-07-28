@@ -38,5 +38,28 @@ export async function POST(req){
     );
   }
 }
+export async function GET(req){
+  
+   const url = new URL(req.url)
+   if(url.searchParams.get('feedbackIds')){
+    const feedbackIds = url.searchParams.get('feedbackIds').split(",")
+    const votesDoc = await Vote.find({feedbackId:feedbackIds})
+    console.log(votesDoc)
+   }
+
+   try {
+    await connectDB();
+  
+      return NextResponse.json(req)
+     
+
+  } catch {
+    console.log(error);
+    return NextResponse.json(
+      { error: "server problem is happend" },
+      { status: 500 }
+    );
+  }
+}
 
 
