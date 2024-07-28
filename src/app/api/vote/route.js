@@ -38,20 +38,19 @@ export async function POST(req){
     );
   }
 }
+
+
 export async function GET(req){
   
-   const url = new URL(req.url)
-   if(url.searchParams.get('feedbackIds')){
-    const feedbackIds = url.searchParams.get('feedbackIds').split(",")
-    const votesDoc = await Vote.find({feedbackId:feedbackIds})
-    console.log(votesDoc)
-   }
-
    try {
-    await connectDB();
-  
-      return NextResponse.json(req)
-     
+    await connectDB()
+    const url = new URL(req.url)
+    if(url.searchParams.get('feedbackIds')){
+     const feedbackIds = url.searchParams.get('feedbackIds').split(",")
+     const votesDoc = await Vote.find({feedbackId:feedbackIds})
+     return NextResponse.json(votesDoc)
+    }
+    return NextResponse.json([]) 
 
   } catch {
     console.log(error);
