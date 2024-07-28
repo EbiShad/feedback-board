@@ -17,6 +17,7 @@ function HomePage() {
   const [showFeedbackFormModal, setShowFeedbackFormModal] = useState(false);
   const [showFeedbackItemModal, setShowFeedbackItemModal] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [votes, setVotes] = useState([]);
   const session = useSession()
 
   const { data, isPending } = useQuery({
@@ -40,7 +41,8 @@ function HomePage() {
 
   useEffect(() => {
     const ids = feedbacks.map(f => f._id)
-    axios.get("/api/vote?ids=")
+    axios.get(`/api/vote?feedbackIds=${ids.join(",")}`).then(res => setVotes(res.data))
+  
   },[feedbacks])
 
   return (
@@ -74,6 +76,7 @@ function HomePage() {
                 <FeedbackItem
                   key={feedback._id}
                   session={session}
+                  vote={votes.filter( v => v.feedbackId === feedback._id )}
                   {...feedback}
                   onOpen={() => openFeedbackItemModal(feedback)}
                 />  
@@ -81,7 +84,7 @@ function HomePage() {
           </div>
         )}
       </div>
-
+ 
       <Modal
         isOpen={showFeedbackItemModal}
         onClose={() => setShowFeedbackItemModal(false)}
