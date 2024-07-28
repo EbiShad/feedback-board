@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 
-function FeedbackItem({ onOpen, title, _id, description, votesCount,session}) {
+function FeedbackItem({ onOpen, title, _id, description, vote ,session}) {
   const router = useRouter()
   
 const voteButton = async (e) => {
@@ -37,7 +37,7 @@ const voteButton = async (e) => {
         </div>
         <div>
           <button onClick={(e) => voteButton(e)} className="border-solid border-purple-300 border-[2px] px-3 py-2 rounded-md flex gap-1 justify-center items-center">
-            <TbTriangleInvertedFilled className="w-3 h-3" /> {votesCount || 0}
+            <TbTriangleInvertedFilled className="w-3 h-3" /> {vote.length || 0}
           </button>
         </div>
       </div>
