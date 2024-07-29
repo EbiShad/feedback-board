@@ -32,7 +32,7 @@ const voteButton = async (e) => {
    }
 }
 
-
+const iVote = votes.find(v => v.userEmail === session.data.user.email)
 
   return (
     <div>
@@ -47,8 +47,8 @@ const voteButton = async (e) => {
         <div>
         {!parentLoadingVotes ?
          <button onClick={(e) => voteButton(e)} 
-            className="border-solid border-purple-300 border-[2px] px-3 
-            py-2 rounded-md flex gap-1 justify-center items-center">
+            className={`border-solid border-purple-300 border-[2px] px-3 
+            py-2 rounded-md flex gap-1 justify-center items-center ${iVote &&"bg-purple-300"}`}>
             {isVoting ? <Loader width={20} height={20} /> : 
             <><TbTriangleInvertedFilled className="w-3 h-3" /> {votes.length || 0}</>}
          </button>: <Loader width={20} height={20} />}
