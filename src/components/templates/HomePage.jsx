@@ -28,7 +28,7 @@ function HomePage() {
   })
 
   const ids = feedbacks.map(f => f._id).join(",")
-  const {isPending } = useQuery({
+  const {isPending:parentLoadingVotes } = useQuery({
     queryFn: () => {axios.get(`/api/vote?feedbackIds=${ids}`).then(res => setVotes(res.data));return null},
     queryKey: ["get-votes",feedbacks],
   })
@@ -88,6 +88,7 @@ function HomePage() {
                   vote={votes?.filter( v => v.feedbackId === feedback._id )}
                   {...feedback}
                   onOpen={() => openFeedbackItemModal(feedback)}
+                  parentLoadingVotes={parentLoadingVotes}
                 />  
             ))}
           </div>
