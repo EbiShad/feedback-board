@@ -22,13 +22,13 @@ function HomePage() {
   const session = useSession()
 
   
-  const { data:feedbackData, isPending } = useQuery({
+  const { data:feedbackData, isPending:isLoadingFeedbacks } = useQuery({
     queryFn: getFeedbackFn,
     queryKey: ["get-feedbacks"],
   })
 
   const ids = feedbacks.map(f => f._id).join(",")
-  const {isPending:isVoting } = useQuery({
+  const {isPending } = useQuery({
     queryFn: () => {axios.get(`/api/vote?feedbackIds=${ids}`).then(res => setVotes(res.data));return null},
     queryKey: ["get-votes",feedbacks],
   })
@@ -76,8 +76,8 @@ function HomePage() {
         <FeedbackFormModal onClose={() => setShowFeedbackFormModal(false)}/>
       </Modal>
 
-      <div className={`px-8 pb-8 min-h-96 ${isPending && "flex items-center justify-center"}`}>
-        {isPending ? (
+      <div className={`px-8 pb-8 min-h-96 ${isLoadingFeedbacks && "flex items-center justify-center"}`}>
+        {isLoadingFeedbacks ? (
           <Loader width={100} height={100} color="rgb(216 180 254)" />
         ) : (
           <div className="space-y-4">
