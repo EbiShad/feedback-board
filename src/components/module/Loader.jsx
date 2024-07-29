@@ -1,7 +1,7 @@
 import { Circles } from "react-loader-spinner";
 
 
-function Loader({ width = 50, height = 20, color }) {
+function Loader({ width = 50, height = 20, color ="rgb(0 0 0)" }) {
   return (
     <div>
       <Circles
