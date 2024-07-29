@@ -85,7 +85,7 @@ function HomePage() {
                 <FeedbackItem
                   key={feedback._id}
                   session={session}
-                  vote={votes?.filter( v => v.feedbackId === feedback._id )}
+                  votes={votes?.filter( v => v.feedbackId === feedback._id )}
                   {...feedback}
                   onOpen={() => openFeedbackItemModal(feedback)}
                   parentLoadingVotes={parentLoadingVotes}
@@ -99,7 +99,10 @@ function HomePage() {
         isOpen={showFeedbackItemModal}
         onClose={() => setShowFeedbackItemModal(false)}
       >
-        <FeedbackItemModal {...showFeedbackItemModal} />
+        <FeedbackItemModal 
+          {...showFeedbackItemModal}
+          votes={votes}
+           />
       </Modal>
     </main>
   );
