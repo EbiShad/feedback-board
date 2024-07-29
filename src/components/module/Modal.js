@@ -1,6 +1,18 @@
+import { useEffect } from "react";
 import { CgClose } from "react-icons/cg";
 
 function Modal({ isOpen, children, onClose, title }) {
+
+
+  useEffect(() => {
+    if(isOpen){
+      document.body.style.overflow = 'hidden';
+    }
+    return () => document.body.style.overflow = 'unset';
+    }, [isOpen]);
+    
+
+
   return (
     <div
       onClick={onClose}
