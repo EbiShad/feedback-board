@@ -6,12 +6,13 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
+import Loader from "../module/Loader";
 
 function FeedbackItem({ onOpen, title, _id, description, vote ,session}) {
   const router = useRouter()
-const queryClient = useQueryClient()
+  const queryClient = useQueryClient()
 
-  const { data, isPending, mutateAsync } = useMutation({
+  const { data, isPending:isVoting, mutateAsync } = useMutation({
     mutationFn: createVoteFn,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
@@ -29,8 +30,7 @@ const voteButton = async (e) => {
     return
    }else{
     const data = await mutateAsync({feedbackId:_id})
-    // const res = await axios.post("/api/vote",{feedbackId:_id}).then(res => res.data)
-   
+    
    }
 }
 
@@ -49,7 +49,8 @@ const voteButton = async (e) => {
         </div>
         <div>
           <button onClick={(e) => voteButton(e)} className="border-solid border-purple-300 border-[2px] px-3 py-2 rounded-md flex gap-1 justify-center items-center">
-            <TbTriangleInvertedFilled className="w-3 h-3" /> {vote.length || 0}
+          {isVoting ? <Loader width={20} height={20} /> : <><TbTriangleInvertedFilled className="w-3 h-3" /> {vote.length || 0}</>}
+            
           </button>
         </div>
       </div>
