@@ -8,8 +8,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPostFn } from "@/servises/feedbackService";
 import toast from "react-hot-toast";
 import supabase from "@/config/SupabaseClient";
-import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../module/Loader";
+import Attachment from "../module/Attachment";
 
 function FeedbackFormModal({ onClose }) {
   const [title, setTitle] = useState("");
@@ -83,20 +83,8 @@ function FeedbackFormModal({ onClose }) {
       />
       
       {imgUpload?.length > 0 && (
-        <div>
-          <label>Files</label>
-          <div className="flex gap-2 p-1 border h-20 rounded-md mt-1 ">
-            {imgUpload.map((link,index) => (
-              <a href={link} target="_blank" key={index} className="w-1/5 relative">
-                <button onClick={(e) => handleremoveFileButton(e,link)} className="absolute -top-[6px] -right-[6px]"> 
-                 <IoTrashOutline className="bg-red-500 text-2xl text-gray-300 p-1 rounded-md"/> 
-                </button>
-                <img src={link} alt={link} className="h-full w-full rounded-md object-cover"/>
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
+       <Attachment imgUpload={imgUpload} showRemoveButton={true}/> 
+      )} 
 
       <div className="flex items-center gap-4 justify-end">
         <label>
