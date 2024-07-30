@@ -1,14 +1,17 @@
-import Button from "../module/Button";
+
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 import FeedbackItemComments from "./FeedbackItemComments";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createVoteFn } from "@/servises/votesServices";
 import Loader from "../module/Loader";
+import { useSession } from "next-auth/react";
+import Attachment from "../module/Attachment";
 
-function FeedbackItemModal({ title, description,votes,_id }) {
+function FeedbackItemModal({ title, description,votes,_id,imgUpload}) {
   const votedVotes = votes?.filter( v => v.feedbackId === _id)
-
   const queryClient = useQueryClient()
+  const session = useSession()
+  
 
   const { data, isPending:isVoting, mutateAsync } = useMutation({
     mutationFn: createVoteFn,
@@ -24,19 +27,27 @@ function FeedbackItemModal({ title, description,votes,_id }) {
     
  }
 
+ const iVote = votedVotes.find(v => v.userEmail === session?.data?.user?.email)
+
+ 
   return (
     <div>
       <div>
         <h2 className="font-bold mb-2 text-lg">{title}</h2>
         <p className="text-opacity-90 text-justify text-sm">{description}</p>
+        {imgUpload?.length > 0 && (
+        <Attachment imgUpload={imgUpload}/>
+      )}
       </div>
 
       <div className="flex items-center mt-4 justify-end border-b-gray-500 border-b pb-2">
-        <Button onClick={voteButton}>
-        {isVoting ? <Loader width={20} height={20} /> : 
-        <><TbTriangleInvertedFilled className="w-3 h-3" />Upvoted {votedVotes.length || 0}</>}
+        <button onClick={voteButton} 
+         className={`border-solid border-purple-300 border-[2px] px-3 
+          py-2 rounded-md flex gap-1 justify-center items-center ${iVote ?"bg-purple-300" : "bg-red-300"}`}
+        >
+        {isVoting ? <Loader width={20} height={20} /> : <><TbTriangleInvertedFilled className="w-3 h-3" /> Upvoted {votedVotes.length || 0}</>}
          
-        </Button>
+        </button>
       </div>
 
       <FeedbackItemComments/>
