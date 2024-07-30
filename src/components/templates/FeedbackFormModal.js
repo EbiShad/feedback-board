@@ -88,7 +88,7 @@ function FeedbackFormModal({ onClose }) {
 
       <div className="flex items-center gap-4 justify-end">
         <AttachFiles setImgUpload={setImgUpload}/>
-        <Button onClick={handleCreatePostButton}> Create post </Button>
+        <Button onClick={handleCreatePostButton}>Create post </Button>
       </div>
     </form>
   );
