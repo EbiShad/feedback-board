@@ -32,7 +32,8 @@ const voteButton = async (e) => {
    }
 }
 
-const iVote = votes.find(v => v.userEmail === session.data.user.email)
+const iVote = votes.find(v => v.userEmail === session?.data?.user?.email)
+
 
   return (
     <div>
