@@ -8,6 +8,16 @@ function CommentForm() {
   const [commentText, setCommentText] = useState("");
   const [imgUpload, setImgUpload] = useState([]);
 
+
+  const handleremoveFileButton = (e,link) => {
+    e.preventDefault();
+    setImgUpload(currentUpload => {
+      return currentUpload.filter(val => val !== link)
+    })
+  }
+
+
+
   return (
     <form className="mt-5">
       <TextareaInput
@@ -34,7 +44,7 @@ function CommentForm() {
           </div>
         </div>
       )}
-      
+
       <div className="flex items-center gap-4 justify-end">
         <AttachFiles setImgUpload={setImgUpload} />
         <Button disabled={commentText === ""}>Comment</Button>
