@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import TextareaInput from "../module/TextareaInput";
-import Button from "../module/Button";
+
 import Avatar from "../module/Avatar";
+import CommentForm from "../module/CommentForm";
 
 function FeedbackItemComments() {
-  const [commentText, setCommentText] = useState("");
+ 
 
   return (
     <div>
@@ -20,20 +19,7 @@ function FeedbackItemComments() {
           <div className="text-xs text-gray-400 pt-1">Anonymous . afew minutes ago</div>
         </div>
       </div>
-      <form className="mt-5">
-        <TextareaInput
-          label="All comments"
-          type="text"
-          name="comments"
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-          placeholder="Let us know what you think"
-        />
-        <div className="flex items-center gap-4 justify-end">
-          <Button gray>Atach files</Button>
-          <Button disabled={commentText === ""}>Comment</Button>
-        </div>
-      </form>
+     <CommentForm/>
     </div>
   );
 }
