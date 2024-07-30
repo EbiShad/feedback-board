@@ -81,10 +81,21 @@ function FeedbackFormModal({ onClose }) {
         onChange={(e) => setDescription(e.target.value)}
         placeholder="please include any details"
       />
+
+     
       
       {imgUpload?.length > 0 && (
-       <Attachment imgUpload={imgUpload} showRemoveButton={true}/> 
-      )} 
+        <div>
+          <label>Files</label>
+          <div className="flex gap-2 p-1 border h-20 rounded-md mt-1 ">
+            {imgUpload.map((link,index) => (
+              <Attachment key={index} 
+                link={link} 
+                showRemoveButton={true} 
+                onDeletFile={(e)=> handleremoveFileButton(e,link)}/>))}
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center gap-4 justify-end">
         <label>
