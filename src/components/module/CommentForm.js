@@ -4,12 +4,15 @@ import TextareaInput from "./TextareaInput";
 import AttachFiles from "./AttachFiles";
 import Attachment from "./Attachment";
 import { createCommentFn } from "@/servises/commentServices";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-function CommentForm({feedbackId,onClose}) {
+function CommentForm({feedbackId}) {
   const [commentText, setCommentText] = useState("");
   const [imgUpload, setImgUpload] = useState([]);
+
+  const queryClient = useQueryClient()
+  
 
   const { data, isPending:isCommenting, mutateAsync } = useMutation({
     mutationFn: createCommentFn,
@@ -18,11 +21,12 @@ function CommentForm({feedbackId,onClose}) {
         toast.success(data.message);
         setCommentText("");
         setImgUpload([])
-        onClose()
-        return;
       } else {
         toast.error(data.message);
       }
+      queryClient.invalidateQueries({
+        queryKey: ["get-comments"],
+      })
     },
     onError: (err) => {
       toast.error(err.message);
