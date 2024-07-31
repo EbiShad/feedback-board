@@ -102,6 +102,7 @@ function HomePage() {
         <FeedbackItemModal 
           {...showFeedbackItemModal}
           votes={votes}
+          onClose={() => setShowFeedbackItemModal(false)}
            />
       </Modal>
     </main>
