@@ -31,6 +31,28 @@ export async function POST(req){
 }
 
 
+export async function GET(req){
+  
+  try {
+   await connectDB()
+   const url = new URL(req.url)
+   if(url.searchParams.get('feedbackId')){
+    const feedbackId = url.searchParams.get('feedbackId')
+    const comments = await Comment.find({feedbackId})
+    return NextResponse.json(comments)
+   }
+
+   return NextResponse.json([]) 
+
+ } catch {
+   console.log(error);
+   return NextResponse.json(
+     { error: "server problem is happend" },
+     { status: 500 }
+   );
+ }
+}
+
 
 
 
