@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { IoTrashOutline } from "react-icons/io5";
 import Attachment from "../module/Attachment";
 
-function FeedbackItemModal({ title, description, votes, _id, imgUpload }) {
+function FeedbackItemModal({ title, description, votes, _id, imgUpload ,onClose}) {
   const votedVotes = votes?.filter((v) => v.feedbackId === _id);
   const queryClient = useQueryClient();
   const session = useSession();
@@ -40,7 +40,7 @@ function FeedbackItemModal({ title, description, votes, _id, imgUpload }) {
         <p className="text-opacity-90 text-justify text-sm">{description}</p>
         {imgUpload?.length > 0 && (
           <div>
-            <label>Files</label>
+            <label>Images</label>
             <div className="flex gap-2 p-1 border h-20 rounded-md mt-1 ">
               {imgUpload.map((link, index) => (
                 <Attachment
@@ -73,7 +73,7 @@ function FeedbackItemModal({ title, description, votes, _id, imgUpload }) {
         </button>
       </div>
 
-      <FeedbackItemComments />
+      <FeedbackItemComments feedbackId={_id} onClose={onClose}/>
     </div>
   );
 }
