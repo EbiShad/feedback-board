@@ -20,11 +20,11 @@ function Modal({ isOpen, children, onClose, title }) {
         isOpen
           ? "visible bg-slate-900 bg-opacity-60 backdrop-blur-md"
           : "invisible"
-      }  fixed top-0 left-0  w-full min-h-screen z-50 flex justify-center items-center duration-500 transition-all overflow-y-auto`}
+      }  fixed top-0 left-0  w-full min-h-screen z-50 flex justify-center items-center duration-500 transition-all`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-[80%] sm:w-[60%] md:w-[50%] lg:w-[40%] ${
+        className={`w-[80%] sm:w-[60%] md:w-[50%] lg:w-[40%]  max-h-[600px] overflow-y-auto ${
           isOpen ? "-translate-y-0 opacity-100" : "-translate-y-16 opacity-0"
         } rounded-lg shadow-lg p-4 bg-slate-100 duration-500 transition-all`}
       >
