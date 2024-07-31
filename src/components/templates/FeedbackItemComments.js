@@ -2,7 +2,7 @@
 import Avatar from "../module/Avatar";
 import CommentForm from "../module/CommentForm";
 
-function FeedbackItemComments() {
+function FeedbackItemComments({feedbackId,onClose}) {
  
 
   return (
@@ -19,7 +19,7 @@ function FeedbackItemComments() {
           <div className="text-xs text-gray-400 pt-1">Anonymous . afew minutes ago</div>
         </div>
       </div>
-     <CommentForm/>
+     <CommentForm feedbackId={feedbackId} onClose={onClose}/>
     </div>
   );
 }
