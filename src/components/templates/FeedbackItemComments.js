@@ -25,18 +25,18 @@ function FeedbackItemComments({ feedbackId = "" }) {
     <div>
       {comments?.length > 0 &&
         comments.map((comment) => (
-          <div key={comment._id}>
+          <div key={comment._id} className="border-b">
             <div className="mt-8 flex gap-4">
               <Avatar />
               <div>
                 <p className="text-justify text-xs">{comment.commentText}</p>
                 <div className="text-xs text-gray-400 pt-1">
-                  Anonymous .
+                  {(comment.userEmail)}-
                   <TimeAgo datetime={comment.createdAt} locale="en_US" />
                 </div>
               </div>
             </div>
-            {comment?.imgUpload && (
+            {comment?.imgUpload.length > 0  && (
                 <div className="flex gap-2 p-1 border h-20 rounded-md mt-1 ">
                   {comment?.imgUpload.map((link, index) => (
                     <Attachment key={index} link={link} />
