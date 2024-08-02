@@ -11,6 +11,8 @@ import { getFeedbackFn } from "@/servises/feedbackService";
 import Loader from "../module/Loader";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 
@@ -20,6 +22,7 @@ function HomePage() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [votes, setVotes] = useState([]);
   const session = useSession()
+  const router = useRouter()
 
   
   const { data:feedbackData, isPending:isLoadingFeedbacks } = useQuery({
@@ -36,8 +39,14 @@ function HomePage() {
 
 
 
-  const openFeedbackFormModal = () => {
-    setShowFeedbackFormModal(true);
+  const setShowFeedbackFormModal = () => {
+    if(session.status === "authenticated"){
+      setShowFeedbackFormModal(true)
+      return
+     }else{
+      router.push("/signin")
+      toast("you are not login Please login first")
+     }
   };
 
   const openFeedbackItemModal = (feedback) => {
