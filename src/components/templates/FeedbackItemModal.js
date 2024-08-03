@@ -7,10 +7,12 @@ import { useSession } from "next-auth/react";
 import { IoTrashOutline } from "react-icons/io5";
 import Attachment from "../module/Attachment";
 
-function FeedbackItemModal({ title, description, votes, _id, imgUpload ,onClose}) {
+function FeedbackItemModal({ title, description, votes, _id, imgUpload ,onClose,userEmail}) {
   const votedVotes = votes?.filter((v) => v.feedbackId === _id);
   const queryClient = useQueryClient();
   const session = useSession();
+
+
 
   const {
     data,
@@ -62,15 +64,16 @@ function FeedbackItemModal({ title, description, votes, _id, imgUpload ,onClose}
             iVote ? "bg-purple-300" : "bg-red-300"
           }`}
         >
-          {isVoting ? (
+          {isVoting ? 
             <Loader width={20} height={20} />
-          ) : (
+           : 
             <>
               <TbTriangleInvertedFilled className="w-3 h-3" /> Upvoted{" "}
               {votedVotes.length || 0}
             </>
-          )}
+          }
         </button>
+        {session?.data?.user?.email === userEmail && <button>Edit</button>}
       </div>
 
       <FeedbackItemComments feedbackId={_id} onClose={onClose}/>
