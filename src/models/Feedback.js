@@ -1,5 +1,4 @@
 
-
 import { Schema, model, models } from "mongoose";
 
 const feedbackSchema = new Schema({
@@ -14,8 +13,12 @@ const feedbackSchema = new Schema({
   imgUpload: {
     type: [String],
   },
-},{timestamps:true});
+  userEmail: {
+    type: String,
+    required: true,
+  }
+},{timestamps:true})
 
-const Feedback = models.Feedback || model("Feedback", feedbackSchema);
+const Feedback = models.Feedback || model("Feedback", feedbackSchema)
 
-export default Feedback;
+export default Feedback
