@@ -5,19 +5,35 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import TimeAgo from "timeago-react";
 import Attachment from "../module/Attachment";
+import { useSession } from "next-auth/react";
+import Button from "../module/Button";
 
 function FeedbackItemComments({ feedbackId = "" }) {
   const [comments, setComments] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+ 
+  const session =  useSession()
+
+  const userEmail = session?.data?.user?.email 
 
   const { isPending: isLoadingComments } = useQuery({
     queryFn: () => {
       axios
         .get(`/api/comment?feedbackId=${feedbackId}`)
         .then((res) => setComments(res.data));
-      return;
+      return null
     },
     queryKey: ["get-comments", feedbackId],
   })
+
+  const handleEditModeBtn = () => {
+    setEditMode(true)
+  }
+  
+  const handleCancelModeBtn = () => {
+    setEditMode(false)
+  }
+  
 
 
 
@@ -25,7 +41,7 @@ function FeedbackItemComments({ feedbackId = "" }) {
     <div>
       {comments?.length > 0 &&
         comments.map((comment) => (
-          <div key={comment._id} className="border-b">
+          <div key={comment._id} >
             <div className="mt-8 flex gap-4">
               <Avatar />
               <div>
@@ -43,6 +59,13 @@ function FeedbackItemComments({ feedbackId = "" }) {
                   ))}
                 </div>
             )}
+            {comment.userEmail === userEmail && 
+              <div className="flex gap-2">
+                <button gray={true} onClick={handleEditModeBtn}>Edit</button>
+                <Button gray={true} onClick={handleCancelModeBtn}>Cancel</Button>
+                <Button gray={true}>Save Changes</Button>
+              </div>
+            }
           </div>
         ))}
 
