@@ -27,12 +27,12 @@ body {
   @apply bg-slate-100
 }
 
-a{
+a {
     text-decoration: none;
 }
 
 @layer utilities {
-  ::-webkit-c {
+  ::-webkit-scrollbar {
     width: 12px;
   }
   
@@ -57,4 +57,9 @@ a{
 }
 
 
-
+ @layer components {
+  .textFeild__input {
+   @apply p-3 bg-gray-50  border border-gray-300 text-gray-900 text-sm 
+   rounded-lg focus:outline-none focus:border-purple-600 w-full 
+  }
+}
