@@ -5,7 +5,7 @@ function TextField({ label, type, name, value, onChange, placeholder }) {
         {label}:
       </label>
       <input
-        className="p-3 bg-gray-50  border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-purple-600 w-full "
+        className="textFeild__input" 
         type={type}
         id={name}
         value={value}
