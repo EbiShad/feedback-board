@@ -39,7 +39,7 @@ function HomePage() {
 
 
 
-  const setShowFeedbackFormModal = () => {
+  const openFeedbackFormModal = () => {
     if(session.status === "authenticated"){
       setShowFeedbackFormModal(true)
       return
@@ -50,8 +50,8 @@ function HomePage() {
   };
 
   const openFeedbackItemModal = (feedback) => {
-    setShowFeedbackItemModal(feedback);
-  };
+    setShowFeedbackItemModal(feedback)
+  }
 
   useEffect(() => {
     if (feedbackData) {
@@ -90,7 +90,7 @@ function HomePage() {
           <Loader width={100} height={100} color="rgb(216 180 254)" />
         ) : (
           <div className="space-y-4">
-            {feedbacks.map((feedback) => (
+            {feedbacks?.map((feedback) => (
                 <FeedbackItem
                   key={feedback._id}
                   session={session}
