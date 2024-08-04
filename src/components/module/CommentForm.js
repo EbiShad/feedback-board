@@ -48,6 +48,12 @@ function CommentForm({feedbackId}) {
   }
 
 
+  const addNewUpload = (links) => {
+    setImgUpload((prev) => [...prev,...links])
+  }
+  
+
+
   return (
     <form className="mt-5">
       <TextareaInput
@@ -76,7 +82,7 @@ function CommentForm({feedbackId}) {
       )}
 
       <div className="flex items-center gap-4 justify-end">
-        <AttachFiles setImgUpload={setImgUpload} />
+        <AttachFiles onNewFile={addNewUpload} />
         <Button disabled={commentText === "" } onClick={createCommentButton}>Comment</Button>
       </div>
     </form>
