@@ -7,7 +7,6 @@ import Button from "../module/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPostFn } from "@/servises/feedbackService";
 import toast from "react-hot-toast";
-import supabase from "@/config/SupabaseClient";
 import Attachment from "../module/Attachment";
 import AttachFiles from "../module/AttachFiles";
 
@@ -52,6 +51,10 @@ function FeedbackFormModal({ onClose }) {
     })
   }
 
+  const addNewUpload = (links) => {
+    setImgUpload((prev) => [...prev,...links])
+  }
+
   return (
     <form className="space-y-4">
       <TextField
@@ -87,7 +90,7 @@ function FeedbackFormModal({ onClose }) {
       )}
 
       <div className="flex items-center gap-4 justify-end">
-        <AttachFiles setImgUpload={setImgUpload}/>
+        <AttachFiles onNewFile={addNewUpload}/>
         <Button onClick={handleCreatePostButton}>Create post </Button>
       </div>
     </form>
