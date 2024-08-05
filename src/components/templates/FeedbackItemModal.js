@@ -9,21 +9,28 @@ import Loader from "../module/Loader";
 import { useSession } from "next-auth/react";
 import Attachment from "../module/Attachment";
 import Button from "../module/Button";
+import AttachFiles from "../module/AttachFiles";
+import { editFeedbackFn } from "@/servises/feedbackService";
 
-function FeedbackItemModal({title,description,votes,_id,imgUpload,onClose,userEmail}) {
-  const [newTitle, setnewTitle] = useState(title);
-  const [newDescription, setNewDescription] = useState(description);
-  const [newImgUpload, setNewImgUpload] = useState(imgUpload);
+function FeedbackItemModal({title,description,votes,_id,imgUpload,onClose,userEmail,onUpdate}) {
+
 
   const votedVotes = votes?.filter((v) => v.feedbackId === _id);
   const queryClient = useQueryClient();
   const session = useSession();
   const [editMode, setEditMode] = useState(false);
- 
+  const [newTitle, setnewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+  const [newImgUpload, setNewImgUpload] = useState([]);
   const validUser = session?.data?.user?.email === userEmail
 
+  const newData = {title:newTitle,description:newDescription,imgUpload:newImgUpload}
 
-  const {data,isPending: isVoting,mutateAsync} = useMutation({
+  const voteButton = async (e) => {const data = await mutateAsync({ feedbackId: _id })}
+  const iVote = votedVotes.find((v) => v.userEmail === session?.data?.user?.email)
+
+
+  const {data,isPending: isVoting, mutateAsync} = useMutation({
     mutationFn: createVoteFn,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
@@ -32,17 +39,31 @@ function FeedbackItemModal({title,description,votes,_id,imgUpload,onClose,userEm
     }
   })
 
-  const voteButton = async (e) => {const data = await mutateAsync({ feedbackId: _id })}
-  const iVote = votedVotes.find((v) => v.userEmail === session?.data?.user?.email)
+  const {data:editFeddbackData, mutateAsync:mutateEditFeedback} = useMutation({
+    mutationFn: editFeedbackFn,
+    onSuccess: (data) => {
+      setEditMode(false)
+      onUpdate(newData)
+      queryClient.invalidateQueries({
+        queryKey: ["get-feedbacks"],
+      })
+    }
+  })
+
 
 
 const handleEditModeBtn = () => {
   setEditMode(true)
+  setNewDescription(description)
+  setnewTitle(title)
+  setNewImgUpload(imgUpload)
 }
+
 
 const handleCancelModeBtn = () => {
   setEditMode(false)
 }
+
 
 const handleremoveFileButton = (e,link) => {
   e.preventDefault();
@@ -51,15 +72,25 @@ const handleremoveFileButton = (e,link) => {
   })
 }
 
+const handleSaveChangesBtn = async () => {
+  const data = await mutateEditFeedback({...newData,id:_id})
+}
+
+const addNewUpload = (links) => {
+  setNewImgUpload((prev) => [...prev,...links])
+}
+
 
   return (
     <div>
       <div>
         {editMode && 
-         <input className="textFeild__input mb-2" type="text" value={newTitle} onChange={e => setnewTitle(e.target.value)}/>
+         <input className="textFeild__input mb-2" type="text" 
+          value={newTitle} onChange={e => setnewTitle(e.target.value)}/>
         }
         {editMode && 
-         <textarea className="textFeild__input" type="text" value={newDescription} onChange={e => setNewDescription(e.target.value)}/>
+         <textarea className="textFeild__input" type="text" 
+          value={newDescription} onChange={e => setNewDescription(e.target.value)}/>
         }
         {editMode && newImgUpload?.length > 0 && (
         <div>
@@ -75,9 +106,7 @@ const handleremoveFileButton = (e,link) => {
             ))}
           </div>
         </div>
-      )
-     
-        }
+      )}
       
         {!editMode && 
           <>
@@ -105,9 +134,14 @@ const handleremoveFileButton = (e,link) => {
       <div className="flex items-center mt-4 justify-between border-b-gray-500 border-b pb-2">
         {validUser && 
           <div className="flex gap-2">
-            <button gray={true} onClick={handleEditModeBtn}>Edit</button>
-            <Button gray={true} onClick={handleCancelModeBtn}>Cancel</Button>
-            <Button gray={true}>Save Changes</Button>
+            <Button mediumBtn gray={true} onClick={handleEditModeBtn}>Edit</Button>
+            {editMode && 
+              <>
+                <Button mediumBtn gray={true} onClick={handleCancelModeBtn}>Cancel</Button>
+                <AttachFiles onNewFile={addNewUpload}/> 
+                <Button mediumBtn gray={true} onClick={handleSaveChangesBtn}>Save Changes</Button>
+              </>
+            }
           </div>
         }
 
