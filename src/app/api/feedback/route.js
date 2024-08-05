@@ -34,6 +34,29 @@ export async function POST(req){
   }
 }
 
+export async function PUT(req){
+
+  try {
+   await connectDB();
+   const {title,description,imgUpload,id} = await req.json();
+   const session = await getServerSession(authOptions)
+   const userEmail = session.user.email
+
+   const updatedfeedbackDoc = await Feedback.findOneAndUpdate({userEmail,_id:id},{title,description,imgUpload})
+   
+
+   return NextResponse.json(updatedfeedbackDoc);
+   
+
+ } catch {
+   console.log(error)
+   return NextResponse.json(
+     { error: "server problem is happend" },
+     { status: 500 }
+   )
+ }
+}
+
 
 export async function GET(req){
   try {
