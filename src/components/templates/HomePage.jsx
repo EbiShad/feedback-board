@@ -35,7 +35,8 @@ function HomePage() {
     queryFn: () => {axios.get(`/api/vote?feedbackIds=${ids}`).then(res => setVotes(res.data));return null},
     queryKey: ["get-votes",feedbacks],
   })
- 
+
+
 
 
 
@@ -60,6 +61,11 @@ function HomePage() {
   },[feedbackData])
 
 
+  const updateFeedback = (newData) =>{
+    setShowFeedbackItemModal((prev) =>{
+      return {...prev,...newData}
+    })
+  }
 
 
 
@@ -112,6 +118,7 @@ function HomePage() {
           {...showFeedbackItemModal}
           votes={votes}
           onClose={() => setShowFeedbackItemModal(false)}
+          onUpdate={updateFeedback}
            />
       </Modal>
     </main>
