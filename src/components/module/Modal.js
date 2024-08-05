@@ -11,16 +11,18 @@ function Modal({ isOpen, children, onClose, title }) {
     return () => document.body.style.overflow = 'unset';
     }, [isOpen]);
     
+  
 
 
   return (
-    <div
-      onClick={onClose}
-      className={`${
-        isOpen
-          ? "visible bg-slate-900 bg-opacity-60 backdrop-blur-md"
-          : "invisible"
-      }  fixed top-0 left-0  w-full min-h-screen z-50 flex justify-center items-center duration-500 transition-all`}
+    isOpen && (
+      <div
+        onClick={onClose}
+        className={`${
+          isOpen
+            ? "visible bg-slate-900 bg-opacity-60 backdrop-blur-md"
+            : "invisible"
+        }  fixed top-0 left-0  w-full min-h-screen z-50 flex justify-center items-center duration-500 transition-all`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -37,6 +39,8 @@ function Modal({ isOpen, children, onClose, title }) {
         {children}
       </div>
     </div>
+    )
+    
   )
 }
 
