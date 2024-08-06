@@ -21,6 +21,7 @@ function HomePage() {
   const [showFeedbackItemModal, setShowFeedbackItemModal] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
   const [votes, setVotes] = useState([]);
+  const [sort, setSort] = useState("votes");
   const session = useSession()
   const router = useRouter()
 
@@ -30,14 +31,16 @@ function HomePage() {
     queryKey: ["get-feedbacks"],
   })
 
+  const { data:feedbackSortedData, isPending:isLoadingSortedFeedbacks } = useQuery({
+    queryFn: () => {axios.get(`/api/feedback?sort=${sort}`).then(res =>setFeedbacks(res.data));return null},
+    queryKey: ["get-sortedFeedbacks",sort,votes],
+  })
+
   const ids = feedbacks.map(f => f._id).join(",")
   const {isPending:parentLoadingVotes } = useQuery({
     queryFn: () => {axios.get(`/api/vote?feedbackIds=${ids}`).then(res => setVotes(res.data));return null},
     queryKey: ["get-votes",feedbacks],
   })
-
-
-
 
 
   const openFeedbackFormModal = () => {
@@ -59,6 +62,14 @@ function HomePage() {
       setFeedbacks(feedbackData)
     }
   },[feedbackData])
+  
+  useEffect(() => {
+    if (feedbackData) {
+      setFeedbacks(feedbackData)
+    }
+  },[feedbackData])
+
+
 
 
   const updateFeedback = (newData) =>{
@@ -66,7 +77,6 @@ function HomePage() {
       return {...prev,...newData}
     })
   }
-
 
 
   return (
@@ -78,8 +88,17 @@ function HomePage() {
         </p>
       </div>
 
-      <div className="bg-gray-100 flex items-center justify-between mt-4 mb-4  px-8">
-        filters
+      <div className="bg-gray-100 flex items-center justify-between mt-4 mb-4  px-8 py-2">
+        
+        <div className="flex gap-2 items-center">
+          <span>sort by:</span>
+          <select value={sort} onChange={e => {setSort(e.target.value)}} className="w-[150px] textFeild__input py-[6px]">
+              <option value="votes">Most voted</option>
+              <option value="Latest">Latest</option>
+              <option value="Oldest">Oldest</option>
+          </select>
+        </div>
+
         <Button onClick={openFeedbackFormModal}>Make a sujestion</Button>
       </div>
 
@@ -88,7 +107,9 @@ function HomePage() {
         onClose={() => setShowFeedbackFormModal(false)}
         title="Make a sujesstion"
       >
-        <FeedbackFormModal onClose={() => setShowFeedbackFormModal(false)}/>
+        <FeedbackFormModal 
+          onClose={() => setShowFeedbackFormModal(false)}
+          />
       </Modal>
 
       <div className={`px-8 pb-8 min-h-96 ${isLoadingFeedbacks && "flex items-center justify-center"}`}>

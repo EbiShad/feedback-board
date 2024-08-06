@@ -10,14 +10,14 @@ import toast from "react-hot-toast";
 import Attachment from "../module/Attachment";
 import AttachFiles from "../module/AttachFiles";
 
-function FeedbackFormModal({ onClose }) {
+function FeedbackFormModal({ onClose}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imgUpload, setImgUpload] = useState([]);
   
   const queryClient = useQueryClient()
 
-  const { data, isPending, mutateAsync } = useMutation({
+  const {data,isPending,mutateAsync} = useMutation({
     mutationFn: createPostFn,
     onSuccess: (data) => {
       if (data.status === 201) {
@@ -40,7 +40,7 @@ function FeedbackFormModal({ onClose }) {
 
   const handleCreatePostButton = async (e) => {
     e.preventDefault();
-    const data = await mutateAsync({ title, description ,imgUpload});
+    const data = await mutateAsync({title, description ,imgUpload});
   }
 
 

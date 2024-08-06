@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 import Loader from "../module/Loader";
 
-function FeedbackItem({ onOpen, title, _id, description, votes ,session,parentLoadingVotes}) {
+function FeedbackItem({onOpen, title, _id, description, votes ,session,parentLoadingVotes}) {
   const router = useRouter()
   const queryClient = useQueryClient()
 
