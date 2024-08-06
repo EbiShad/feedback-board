@@ -16,7 +16,8 @@ const feedbackSchema = new Schema({
   userEmail: {
     type: String,
     required: true,
-  }
+  },
+  voteCountCache:{type:Number,default:0}
 },{timestamps:true})
 
 const Feedback = models.Feedback || model("Feedback", feedbackSchema)
